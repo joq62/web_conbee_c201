@@ -18,8 +18,8 @@
 <div id="heather_guest_house_status"></div>
 
 <script>
-  /*   var ws = new WebSocket("ws://joqhome.asuscomm.com:60201/please_upgrade_to_websocket"); */
-  var ws = new WebSocket("ws://localhost:60201/please_upgrade_to_websocket");
+     var ws = new WebSocket("ws://joqhome.asuscomm.com:60201/please_upgrade_to_websocket"); 
+ /*  var ws = new WebSocket("ws://localhost:60201/please_upgrade_to_websocket"); */
     ws.onerror = function(event) {
         console.error("[ME]WebSocket error observed:", event);
     };
