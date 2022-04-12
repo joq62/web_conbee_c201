@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<title>Websocket client</title>
+</head>
+
+<body>
+
+  <h1 >Välkommen till Stugan</h1>
+
+<button type="button" onclick="main_house_on();">Ute_kök_hallen Lampor PÅ</button>
+<button type="button" onclick="main_house_off();">Ute_kök_hallen Lampor AV</button>
+<div id="heather_main_house_status"></div>
+<br>
+<button type="button" onclick="guest_house_on();">Inglasade Lampa PÅ</button>
+<button type="button" onclick="guest_house_off();">Inglasade Lampa AV</button>
+<div id="heather_guest_house_status"></div>
+
+<script>
+  /*   var ws = new WebSocket("ws://joqhome.asuscomm.com:60201/please_upgrade_to_websocket"); */
+  var ws = new WebSocket("ws://localhost:60201/please_upgrade_to_websocket");
+    ws.onerror = function(event) {
+        console.error("[ME]WebSocket error observed:", event);
+    };
+    ws.onclose = function(event) {
+        console.log("[ME]WebSocket is closed now.");
+    };
+
+
+  ws.onmessage = function (event) {
+      
+      console.log(event.data);
+      var str=event.data;
+      var arr=str.split(",");
+      
+      document.getElementById('heather_main_house_status').innerHTML=arr[0];
+      document.getElementById('heather_guest_house_status').innerHTML=arr[1];
+  };
+
+// Joqs own golden code
+
+  function main_house_on(){
+				ws.send("main_house_on");
+};
+  function main_house_off(){
+				ws.send("main_house_off");
+};
+  function guest_house_on(){
+				ws.send("guest_house_on");
+};
+  function guest_house_off(){
+				ws.send("guest_house_off");
+};
+   </script>
+
+
+</html>
