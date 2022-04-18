@@ -14,6 +14,7 @@ start(_StartType, _StartArgs) ->
     ok.
 
 start()->
+    application:ensure_all_started(gun),
     case code:where_is_file(?HwConfig) of
 	non_existing->
 	    {error,[non_existing,?HwConfig]};

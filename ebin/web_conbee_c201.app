@@ -11,6 +11,6 @@
                         no_matching_route_handler,sensors,
                         tradfri_bulb_e27_cws_806lm,tradfri_bulb_e27_ww_806lm,
                         tradfri_control_outlet,web_conbee,web_conbee_c201_app,
-                        web_conbee_c201_sup,web_init]},
+                        web_conbee_c201_sup]},
               {licenses,["Apache 2.0"]},
               {links,[]}]}.
