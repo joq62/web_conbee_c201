@@ -136,7 +136,7 @@ handle_call({websocket_init,Pid},_From,State) ->
 
 
 handle_call({websocket_handle,{text, <<"inglasad_on">>}},_From,State) ->
-    io:format("main_house_on  ~p~n",[{?MODULE,?LINE}]),
+    io:format("lamp_inglasad_off_on  ~p~n",[{?MODULE,?LINE}]),
     
     tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
 
@@ -144,7 +144,7 @@ handle_call({websocket_handle,{text, <<"inglasad_on">>}},_From,State) ->
     {Reply,NewState}=format_text(NewState),
     {reply, Reply, NewState};
 handle_call({websocket_handle,{text, <<"inglasad_off">>}},_From,State) ->
-    io:format("main_house_off  ~p~n",[{?MODULE,?LINE}]),
+    io:format("lamp_inglasad_off  ~p~n",[{?MODULE,?LINE}]),
 
     tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
 
@@ -152,7 +152,7 @@ handle_call({websocket_handle,{text, <<"inglasad_off">>}},_From,State) ->
     {Reply,NewState}=format_text(NewState),
     {reply, Reply, NewState};
 handle_call({websocket_handle,{text, <<"lamps_indoor_on">>}},_From,State) ->
-    io:format("guest_house_on  ~p~n",[{?MODULE,?LINE}]),
+    io:format("lamps_indoor_on  ~p~n",[{?MODULE,?LINE}]),
 
     tradfri_control_outlet:set("switch_lamp_balcony","on"),
     tradfri_control_outlet:set("switch_lamp_kitchen","on"),
@@ -267,7 +267,7 @@ format_text(NewState)->
     StatusInglasad=NewState#state.lamp_inglasad_status,
     StatusLampsIndoor=NewState#state.lamps_indoor_status,
 
-    A=["~s~s~s", [StatusInglasad,",",StatusLampsIndoor]],
+    A=["~s~s~s", [StatusLampsIndoor,",",StatusInglasad]],
     {{ok,Type,M,F,A},NewState}.
 
 		  
