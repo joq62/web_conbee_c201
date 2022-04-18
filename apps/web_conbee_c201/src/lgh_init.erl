@@ -7,7 +7,7 @@
 
 -define(AppDir,"web_conbee_c201").
 -define(Port,60201). % Change also Port and Path in index.htlm"
--define(Handler,varmdo_handler).
+-define(Handler,lgh_handler).
 -define(NoRouteHandler,no_matching_route_handler).
 
 -export([start/0,

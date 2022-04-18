@@ -7,15 +7,15 @@
 
 <body>
 
-  <h1 >Välkommen till Stugan</h1>
+  <h1 >Välkommen till Lägenheten</h1>
 
-<button type="button" onclick="main_house_on();">Ute_kök_hallen Lampor PÅ</button>
-<button type="button" onclick="main_house_off();">Ute_kök_hallen Lampor AV</button>
-<div id="heather_main_house_status"></div>
+<button type="button" onclick="lamps_indoor_on();">Ute_kök_hallen Lampor PÅ</button>
+<button type="button" onclick="lamps_indoor_off();">Ute_kök_hallen Lampor AV</button>
+<div id="lamps_indoor_status"></div>
 <br>
-<button type="button" onclick="guest_house_on();">Inglasade Lampa PÅ</button>
-<button type="button" onclick="guest_house_off();">Inglasade Lampa AV</button>
-<div id="heather_guest_house_status"></div>
+<button type="button" onclick="lamp_inglasad_on();">Inglasade Lampa PÅ</button>
+<button type="button" onclick="lamp_inglasad_off();">Inglasade Lampa AV</button>
+<div id="lamp_inglasad_status"></div>
 
 <script>
      var ws = new WebSocket("ws://joqhome.asuscomm.com:60201/please_upgrade_to_websocket"); 
