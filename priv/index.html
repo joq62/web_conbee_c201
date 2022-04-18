@@ -34,23 +34,23 @@
       var str=event.data;
       var arr=str.split(",");
       
-      document.getElementById('heather_main_house_status').innerHTML=arr[0];
-      document.getElementById('heather_guest_house_status').innerHTML=arr[1];
+      document.getElementById('lamps_indoor_status').innerHTML=arr[0];
+      document.getElementById('lamp_inglasad_status').innerHTML=arr[1];
   };
 
 // Joqs own golden code
 
-  function main_house_on(){
-				ws.send("main_house_on");
+  function inglasad_on(){
+				ws.send("lamp_inglasad_on");
 };
-  function main_house_off(){
-				ws.send("main_house_off");
+  function inglasad_off(){
+				ws.send("lamp_inglasad_off");
 };
-  function guest_house_on(){
-				ws.send("guest_house_on");
+  function lamps_indoor_on(){
+				ws.send("lamps_indoor_on");
 };
-  function guest_house_off(){
-				ws.send("guest_house_off");
+  function lamps_indoor_off(){
+				ws.send("lamps_indoor_off");
 };
    </script>
 
