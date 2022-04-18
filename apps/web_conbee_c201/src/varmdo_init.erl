@@ -5,6 +5,7 @@
 
 -module(varmdo_init).
 
+-define(AppDir,"web_conbee_c201").
 -define(Port,60201). % Change also Port and Path in index.htlm"
 -define(Handler,varmdo_handler).
 -define(NoRouteHandler,no_matching_route_handler).
@@ -20,7 +21,7 @@ start()->
     
     {ok,Cwd}=file:get_cwd(),
     io:format("Cwd :~p~n",[Cwd]),
-    code:add_patha("priv"),
+    code:add_patha(filename:join(?AppDir,"priv")),
     PathToFile=code:where_is_file("index.html"),
     io:format("PathToFile :~p~n",[PathToFile]),
     FullPath=filename:join(Cwd,PathToFile),
