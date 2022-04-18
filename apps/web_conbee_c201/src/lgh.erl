@@ -7,7 +7,7 @@
 %%% 
 %%% Created : 10 dec 2012
 %%% -------------------------------------------------------------------
--module(varmdo). 
+-module(lgh). 
 
 -behaviour(gen_server). 
 
@@ -46,8 +46,8 @@
 
 -record(state, {
 		pid,
-		heather_main_house_status,
-		heather_guest_house_status
+		lamp_inglasad_status,
+		lamps_indoor_status
 	        	
 	       }).
 
@@ -114,11 +114,11 @@ ping()->
 %% --------------------------------------------------------------------
 init([]) ->
 % read conbee status
-    StatusHeatherMainHouse="OFF",
-    StatusHeatherGuestHouse="OFF",
+    StatusLampInglasade="OFF",
+    StatusLampsIndoor="OFF",
     
-    {ok, #state{heather_main_house_status=StatusHeatherMainHouse,
-		heather_guest_house_status=StatusHeatherGuestHouse}}.
+    {ok, #state{lamp_inglasad_status=StatusLampInglasade,
+		lamps_indoor_status=StatusLampsIndoor}}.
 
 %% --------------------------------------------------------------------
 %% Function: handle_call/3
@@ -135,40 +135,40 @@ handle_call({websocket_init,Pid},_From,State) ->
     {reply, Reply,NewState};
 
 
-handle_call({websocket_handle,{text, <<"main_house_on">>}},_From,State) ->
+handle_call({websocket_handle,{text, <<"inglasad_on">>}},_From,State) ->
     io:format("main_house_on  ~p~n",[{?MODULE,?LINE}]),
     
-    tradfri_bulb_e27_ww_806lm:set("lamp_joqroom","on"),
+    tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
 
-    NewState=State#state{heather_main_house_status="ON"},
+    NewState=State#state{lamp_inglasad_status="ON"},
     {Reply,NewState}=format_text(NewState),
     {reply, Reply, NewState};
-handle_call({websocket_handle,{text, <<"main_house_off">>}},_From,State) ->
+handle_call({websocket_handle,{text, <<"inglasad_off">>}},_From,State) ->
     io:format("main_house_off  ~p~n",[{?MODULE,?LINE}]),
 
-    tradfri_bulb_e27_ww_806lm:set("lamp_joqroom","off"),
+    tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
 
-    NewState=State#state{heather_main_house_status="OFF"},
+    NewState=State#state{lamp_inglasad_status="OFF"},
     {Reply,NewState}=format_text(NewState),
     {reply, Reply, NewState};
-handle_call({websocket_handle,{text, <<"guest_house_on">>}},_From,State) ->
+handle_call({websocket_handle,{text, <<"lamps_indoor_on">>}},_From,State) ->
     io:format("guest_house_on  ~p~n",[{?MODULE,?LINE}]),
 
-    lgh_mm_test:switch_set_on("switch_lamp_balcony"),
-    lgh_mm_test:switch_set_on("switch_lamp_kitchen"),
-    lgh_mm_test:switch_set_on("switch_lamp_hall"),
+    tradfri_control_outlet:set("switch_lamp_balcony","on"),
+    tradfri_control_outlet:set("switch_lamp_kitchen","on"),
+    tradfri_control_outlet:set("switch_lamp_hall","on"),
 
-    NewState=State#state{heather_guest_house_status="ON"},
+    NewState=State#state{lamps_indoor_status="ON"},
     {Reply,NewState}=format_text(NewState),
     {reply, Reply, NewState};
-handle_call({websocket_handle,{text, <<"guest_house_off">>}},_From,State) ->
-    io:format("guest_house_off  ~p~n",[{?MODULE,?LINE}]),
+handle_call({websocket_handle,{text, <<"lamps_indoor_off">>}},_From,State) ->
+    io:format("lamps_indoor_off  ~p~n",[{?MODULE,?LINE}]),
 
-    lgh_mm_test:switch_set_off("switch_lamp_balcony"),
-    lgh_mm_test:switch_set_off("switch_lamp_kitchen"),
-    lgh_mm_test:switch_set_off("switch_lamp_hall"),
-
-    NewState=State#state{heather_guest_house_status="OFF"},
+    tradfri_control_outlet:set("switch_lamp_balcony","off"),
+    tradfri_control_outlet:set("switch_lamp_kitchen","off"),
+    tradfri_control_outlet:set("switch_lamp_hall","off"),
+ 
+    NewState=State#state{lamps_indoor_status="OFF"},
     {Reply,NewState}=format_text(NewState),
     {reply, Reply, NewState};
 
@@ -264,10 +264,10 @@ format_text(NewState)->
     Type=text,
     M=io_lib,
     F=format,
-    StatusHeatherMainHouse=NewState#state.heather_main_house_status,
-    StatusHeatherGuestHouse=NewState#state.heather_guest_house_status,
+    StatusInglasad=NewState#state.lamp_inglasad_status,
+    StatusLampsIndoor=NewState#state.lamps_indoor_status,
 
-    A=["~s~s~s", [StatusHeatherMainHouse,",",StatusHeatherGuestHouse]],
+    A=["~s~s~s", [StatusInglasad,",",StatusLampsIndoor]],
     {{ok,Type,M,F,A},NewState}.
 
 		  
