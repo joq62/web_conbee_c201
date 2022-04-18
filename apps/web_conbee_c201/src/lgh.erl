@@ -135,22 +135,20 @@ handle_call({websocket_init,Pid},_From,State) ->
     {reply, Reply,NewState};
 
 
-handle_call({websocket_handle,{text, <<"inglasad_on">>}},_From,State) ->
+handle_call({websocket_handle,{text, <<"lamp_inglasad_on">>}},_From,State) ->
     io:format("lamp_inglasad_off_on  ~p~n",[{?MODULE,?LINE}]),
-    
     tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
-
     NewState=State#state{lamp_inglasad_status="ON"},
     {Reply,NewState}=format_text(NewState),
     {reply, Reply, NewState};
-handle_call({websocket_handle,{text, <<"inglasad_off">>}},_From,State) ->
+
+handle_call({websocket_handle,{text, <<"lamp_inglasad_off">>}},_From,State) ->
     io:format("lamp_inglasad_off  ~p~n",[{?MODULE,?LINE}]),
-
     tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
-
     NewState=State#state{lamp_inglasad_status="OFF"},
     {Reply,NewState}=format_text(NewState),
     {reply, Reply, NewState};
+
 handle_call({websocket_handle,{text, <<"lamps_indoor_on">>}},_From,State) ->
     io:format("lamps_indoor_on  ~p~n",[{?MODULE,?LINE}]),
 
