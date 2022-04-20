@@ -18,11 +18,13 @@
 
 %% --------------------------------------------------------------------
 -define(SERVER,?MODULE).
--define(CheckIntervall,20*1000).
+-define(CheckIntervall,60*1000).
+-define(TurnOn,{19,30,00}).
+-define(TurnOff,{21,30,00}).
 
 %% External exports
 -export([
-	 check/0,
+	 check_time/1,
 	 wanted_temp/1,
 	 temp/1,
 	 door/1,
@@ -67,9 +69,6 @@ stop()-> gen_server:call(?SERVER, {stop},infinity).
 %% ====================================================================
 %% Application handling
 %% ====================================================================
-check()-> 
-    gen_server:cast(?MODULE, {check}).
-
 
 %% ====================================================================
 %% Support functions
@@ -101,6 +100,10 @@ websocket_info(Msg)->
 ping()-> 
     gen_server:call(?SERVER, {ping},infinity).
 
+
+check_time(Status)->
+    gen_server:cast(?SERVER, {check_time,Status}).
+    
 %% ====================================================================
 %% Gen Server functions
 %% ====================================================================
@@ -113,9 +116,21 @@ ping()->
 %%          {stop, Reason}
 %% --------------------------------------------------------------------
 init([]) ->
-% read conbee status
-    StatusLampInglasade="OFF",
-    StatusLampsIndoor="OFF",
+    % read conbee status
+    StatusLampsIndoor=case tradfri_control_outlet:is_on("switch_lamp_kitchen") of
+			  true->
+			      "ON";
+			  false->
+			      "OFF"
+		      end,
+    StatusLampInglasade=case tradfri_bulb_e27_ww_806lm:is_on("lamp_inglasad") of
+			  true->
+			      "ON";
+			  false->
+			      "OFF"
+		      end,
+    
+    spawn(fun()->do_check_time() end),
     
     {ok, #state{lamp_inglasad_status=StatusLampInglasade,
 		lamps_indoor_status=StatusLampsIndoor}}.
@@ -203,9 +218,10 @@ handle_call(Request, From, State) ->
 %%          {noreply, State, Timeout} |
 %%          {stop, Reason, State}            (terminate/2 is called)
 %% --------------------------------------------------------------------
-handle_cast({check}, State) ->
-    NewState=State,
-    spawn(fun()->do_check() end),
+handle_cast({check_time,Status}, State) ->
+    NewState=State#state{lamp_inglasad_status=Status,
+			 lamps_indoor_status=Status},
+    spawn(fun()->do_check_time() end),
     {noreply, NewState};
 
 handle_cast(Msg, State) ->
@@ -246,9 +262,25 @@ code_change(_OldVsn, State, _Extra) ->
 %% --------------------------------------------------------------------
 %%% Internal functions
 %% --------------------------------------------------------------------
-do_check()->
+do_check_time()->
     timer:sleep(?CheckIntervall),
-    rpc:cast(node(),?MODULE,check,[]).
+    T=time(),
+    Status=case ((T>?TurnOn) and (T<?TurnOff)) of
+	       false->
+		   tradfri_control_outlet:set("switch_lamp_balcony","off"),
+		   tradfri_control_outlet:set("switch_lamp_kitchen","off"),
+		   tradfri_control_outlet:set("switch_lamp_hall","off"),
+		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
+		   "OFF";
+	       true ->
+		   tradfri_control_outlet:set("switch_lamp_balcony","off"),
+		   tradfri_control_outlet:set("switch_lamp_kitchen","off"),
+		   tradfri_control_outlet:set("switch_lamp_hall","off"),
+		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
+		   "ON"
+	   end,
+   
+    rpc:cast(node(),?MODULE,check_time,[Status]).
 %% --------------------------------------------------------------------
 %% Function: 
 %% Description:
