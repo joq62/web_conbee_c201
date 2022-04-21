@@ -273,10 +273,10 @@ do_check_time()->
 		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
 		   "OFF";
 	       true ->
-		   tradfri_control_outlet:set("switch_lamp_balcony","off"),
-		   tradfri_control_outlet:set("switch_lamp_kitchen","off"),
-		   tradfri_control_outlet:set("switch_lamp_hall","off"),
-		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
+		   tradfri_control_outlet:set("switch_lamp_balcony","on"),
+		   tradfri_control_outlet:set("switch_lamp_kitchen","on"),
+		   tradfri_control_outlet:set("switch_lamp_hall","on"),
+		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
 		   "ON"
 	   end,
    
