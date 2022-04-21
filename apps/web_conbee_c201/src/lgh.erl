@@ -21,6 +21,7 @@
 -define(CheckIntervall,60*1000).
 -define(TurnOn,{19,30,00}).
 -define(TurnOff,{21,30,00}).
+-define(Brightness,15).
 
 %% External exports
 -export([
@@ -153,6 +154,7 @@ handle_call({websocket_init,Pid},_From,State) ->
 handle_call({websocket_handle,{text, <<"lamp_inglasad_on">>}},_From,State) ->
     io:format("lamp_inglasad_off_on  ~p~n",[{?MODULE,?LINE}]),
     tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
+    tradfri_bulb_e27_ww_806lm:set_bri("lamp_inglasad",?Brightness),
     NewState=State#state{lamp_inglasad_status="ON"},
     {Reply,NewState}=format_text(NewState),
     {reply, Reply, NewState};
@@ -277,6 +279,7 @@ do_check_time()->
 		   tradfri_control_outlet:set("switch_lamp_kitchen","on"),
 		   tradfri_control_outlet:set("switch_lamp_hall","on"),
 		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
+		   tradfri_bulb_e27_ww_806lm:set_bri("lamp_inglasad",?Brightness),
 		   "ON"
 	   end,
    
