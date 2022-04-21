@@ -20,7 +20,7 @@
 -define(SERVER,?MODULE).
 -define(CheckIntervall,60*1000).
 -define(TurnOn,{19,30,00}).
--define(TurnOff,{21,30,00}).
+-define(TurnOff,{21,45,00}).
 -define(Brightness,15).
 
 %% External exports
