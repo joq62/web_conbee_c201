@@ -5,8 +5,8 @@
 
 -module(web_init).
 -define(WebServerBeam,"web_server.beam").
--define(Port,60200). % Change also Port and Path in index.htlm"
--define(Handler,web_handler).
+-define(Port,60201). % Change also Port and Path in index.htlm"
+-define(Handler,lgh_handler).
 -define(NoRouteHandler,no_matching_route_handler).
 
 -export([start/0,

@@ -147,6 +147,7 @@ init([]) ->
 %%          {stop, Reason, State}            (terminate/2 is called)
 %% --------------------------------------------------------------------
 handle_call({websocket_init,Pid},_From,State) ->
+    io:format("init websocket ~p~n",[{?MODULE,?LINE,Pid}]),
     {Reply,NewState}=format_text(init,State#state{pid=Pid}),
     {reply, Reply,NewState};
 

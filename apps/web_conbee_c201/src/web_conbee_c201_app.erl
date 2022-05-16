@@ -12,7 +12,7 @@
 start(_StartType, _StartArgs) ->
    
     conbee_init:start(),
-    lgh_init:start(),
+    web_init:start(),
     web_conbee_c201_sup:start_link().
 
 stop(_State) ->
