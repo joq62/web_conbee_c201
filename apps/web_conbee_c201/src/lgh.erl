@@ -19,8 +19,10 @@
 %% --------------------------------------------------------------------
 -define(SERVER,?MODULE).
 -define(CheckIntervall,60*1000).
--define(TurnOn,{20,30,00}).
--define(TurnOff,{21,45,00}).
+-define(TurnOnIndoor,{20,30,00}).
+-define(TurnOffIndoor,{21,45,00}).
+-define(TurnOnOutDoor,{21,00,00}).
+-define(TurnOffOutDoor,{22,59,00}).
 -define(Brightness,15).
 
 %% External exports
@@ -268,22 +270,26 @@ code_change(_OldVsn, State, _Extra) ->
 do_check_time()->
     timer:sleep(?CheckIntervall),
     T=time(),
-    Status=case ((T>?TurnOn) and (T<?TurnOff)) of
+    Status=case ((T>?TurnOnIndoor) and (T<?TurnOffIndoor)) of
 	       false->
-		   tradfri_control_outlet:set("switch_lamp_balcony","off"),
 		   tradfri_control_outlet:set("switch_lamp_kitchen","off"),
 		   tradfri_control_outlet:set("switch_lamp_hall","off"),
 		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
 		   "OFF";
 	       true ->
-		   tradfri_control_outlet:set("switch_lamp_balcony","on"),
-	%	   tradfri_control_outlet:set("switch_lamp_kitchen","on"),
+		   tradfri_control_outlet:set("switch_lamp_kitchen","on"),
 		   tradfri_control_outlet:set("switch_lamp_hall","on"),
-	%	   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
-	%	   tradfri_bulb_e27_ww_806lm:set_bri("lamp_inglasad",?Brightness),
+		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
+		   tradfri_bulb_e27_ww_806lm:set_bri("lamp_inglasad",?Brightness),
 		   "ON"
 	   end,
-   
+    case ((T>?TurnOnOutDoor) and (T<?TurnOffOutDoor)) of
+	false->
+	    tradfri_control_outlet:set("switch_lamp_balcony","off");
+	true ->
+		   tradfri_control_outlet:set("switch_lamp_balcony","on")
+    end,
+    
     rpc:cast(node(),?MODULE,check_time,[Status]).
 %% --------------------------------------------------------------------
 %% Function: 
