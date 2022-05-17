@@ -19,7 +19,7 @@
 %% --------------------------------------------------------------------
 -define(SERVER,?MODULE).
 -define(CheckIntervall,60*1000).
--define(TurnOn,{19,30,00}).
+-define(TurnOn,{20,30,00}).
 -define(TurnOff,{21,45,00}).
 -define(Brightness,15).
 
@@ -277,10 +277,10 @@ do_check_time()->
 		   "OFF";
 	       true ->
 		   tradfri_control_outlet:set("switch_lamp_balcony","on"),
-		   tradfri_control_outlet:set("switch_lamp_kitchen","on"),
+	%	   tradfri_control_outlet:set("switch_lamp_kitchen","on"),
 		   tradfri_control_outlet:set("switch_lamp_hall","on"),
-		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
-		   tradfri_bulb_e27_ww_806lm:set_bri("lamp_inglasad",?Brightness),
+	%	   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
+	%	   tradfri_bulb_e27_ww_806lm:set_bri("lamp_inglasad",?Brightness),
 		   "ON"
 	   end,
    
