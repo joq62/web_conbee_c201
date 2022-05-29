@@ -35,7 +35,7 @@ get_state(Id)->
 set_state(Id,State)->
     {ok,ConbeeAddr}=application:get_env(conbee_rel,addr),
     {ok,ConbeePort}=application:get_env(conbee_rel,port),
-    {ok,Crypto}=application:get_env(conbee_rel,crypto),
+    {ok,Crypto}=application:get_env(conbee_rel,key),
 
     Cmd="/api/"++Crypto++"/lights/"++Id++"/state",
     Body=case State of

@@ -1,5 +1,5 @@
 all:
-	rm -rf  *~ */*~ apps/conbee_rel/src/*.beam test/*.beam erl_cra*;
+	rm -rf  *~ */*~ apps/web_conbee_c201/src/*.beam test/*.beam erl_cra*;
 	rm -rf  catalog host_specs deployment_specs logs *.service_dir;
 	rm -rf _build test_ebin ebin;		
 	mkdir ebin;		
@@ -11,7 +11,7 @@ check:
 	rebar3 check
 
 eunit:
-	rm -rf  *~ */*~ apps/conbee_rel/src/*.beam test/*.beam test_ebin erl_cra*;
+	rm -rf  *~ */*~ apps/web_conbee_c201/src/*.beam test/*.beam test_ebin erl_cra*;
 	rm -rf _build logs *.service_dir;
 	rm -rf  catalog host_specs deployment_specs;
 	rm -rf ebin;

@@ -61,7 +61,7 @@ start()->
 get_info()->
     {ok,ConbeeAddr}=application:get_env(conbee_rel,addr),
     {ok,ConbeePort}=application:get_env(conbee_rel,port),
-    {ok,Crypto}=application:get_env(conbee_rel,crypto),
+    {ok,Crypto}=application:get_env(conbee_rel,key),
     get_info(ConbeeAddr,ConbeePort,Crypto).
 
 get_info(ConbeeAddr,ConbeePort,Crypto)->
