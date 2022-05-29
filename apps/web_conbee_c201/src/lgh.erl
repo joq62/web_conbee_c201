@@ -275,12 +275,16 @@ do_check_time()->
 		   tradfri_control_outlet:set("switch_lamp_kitchen","off"),
 		   tradfri_control_outlet:set("switch_lamp_hall","off"),
 		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
+		    tradfri_bulb_e27_ww_806lm:set("blue_lamp_inglasad","off"),
+
 		   "OFF";
 	       true ->
 		   tradfri_control_outlet:set("switch_lamp_kitchen","on"),
 		   tradfri_control_outlet:set("switch_lamp_hall","on"),
 		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
 		   tradfri_bulb_e27_ww_806lm:set_bri("lamp_inglasad",?Brightness),
+		   tradfri_bulb_E14_ws_candleopal_470lm:set("blue_lamp_inglasad","on"),
+		   tradfri_bulb_E14_ws_candleopal_470lm:set_bri("blue_lamp_inglasad",?Brightness),
 		   "ON"
 	   end,
     case ((T>?TurnOnOutDoor) and (T<?TurnOffOutDoor)) of
