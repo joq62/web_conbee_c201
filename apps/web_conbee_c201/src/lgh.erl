@@ -270,7 +270,7 @@ code_change(_OldVsn, State, _Extra) ->
 do_check_time()->
     timer:sleep(?CheckIntervall),
     T=time(),
-    Status=case ((T>?TurnOnIndoor) and (T<?TurnOffIndoor)) of
+    Status=case ((T>?TurnOnIndoor) and (T<?TurnOffIndoor)) or (tradfri_on_off_switch:is_on("switch_all")) of
 	       false->
 		   tradfri_control_outlet:set("switch_lamp_kitchen","off"),
 		   tradfri_control_outlet:set("switch_lamp_hall","off"),
@@ -287,14 +287,16 @@ do_check_time()->
 		   tradfri_bulb_E14_ws_candleopal_470lm:set_bri("blue_lamp_inglasad",?Brightness),
 		   "ON"
 	   end,
-    case ((T>?TurnOnOutDoor) and (T<?TurnOffOutDoor)) of
+
+    case ((T>?TurnOnOutDoor) and (T<?TurnOffOutDoor)) or (tradfri_on_off_switch:is_on("switch_all")) of
 	false->
 	    tradfri_control_outlet:set("switch_lamp_balcony","off");
 	true ->
-		   tradfri_control_outlet:set("switch_lamp_balcony","on")
+	    tradfri_control_outlet:set("switch_lamp_balcony","on")
     end,
-    
     rpc:cast(node(),?MODULE,check_time,[Status]).
+
+
 %% --------------------------------------------------------------------
 %% Function: 
 %% Description:

@@ -11,7 +11,7 @@
                         tradfri_bulb_E14_ws_candleopal_470lm,
                         tradfri_bulb_e27_cws_806lm,tradfri_bulb_e27_ww_806lm,
                         tradfri_control_outlet,tradfri_on_off_switch,
-                        tradfri_switch_glurk,web_conbee,web_conbee_c201_app,
-                        web_conbee_c201_sup,web_init]},
+                        web_conbee,web_conbee_c201_app,web_conbee_c201_sup,
+                        web_init]},
               {licenses,["Apache 2.0"]},
               {links,[]}]}.

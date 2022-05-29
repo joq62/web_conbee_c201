@@ -147,6 +147,7 @@ get_status("ZHAPresence",Map)->
     true=is_map(Z),
     R=maps:get(<<"presence">>,Z),
     {ok,{"presence",R}};
+
 get_status(Signal,_Map) ->
     {error,[unmatched,Signal,?MODULE,?FUNCTION_NAME,?LINE]}.
 %% --------------------------------------------------------------------

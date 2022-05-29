@@ -10,7 +10,7 @@
 %% Include files
 %% --------------------------------------------------------------------
 -define(ModelId,"TRADFRI on/off switch").
--define(Type,"sensors").
+-define(Type,"lights").
 %% --------------------------------------------------------------------
 %   {"TRADFRI control outlet",
 %     "2",
