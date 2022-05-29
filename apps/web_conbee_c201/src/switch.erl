@@ -4,20 +4,20 @@
 %%% 
 %%% Created : 10 dec 2012
 %%% -------------------------------------------------------------------
--module(lights).    
+-module(switch).    
      
 %% --------------------------------------------------------------------
 %% Include files
 %% --------------------------------------------------------------------
 
 %% --------------------------------------------------------------------
-
+ 
+-define(Type,"switch").
 
 
 %% External exports
 -export([
 	 get_info_raw/0,
-	 get_state/1,
 	 set_state/2,
 
 	 get_info/3,
@@ -28,16 +28,12 @@
 %% ====================================================================
 %% External functions
 %% ====================================================================
-get_state(Id)->
-    
-    glurk.
-
 set_state(Id,State)->
     {ok,ConbeeAddr}=application:get_env(conbee_rel,addr),
     {ok,ConbeePort}=application:get_env(conbee_rel,port),
     {ok,Crypto}=application:get_env(conbee_rel,crypto),
 
-    Cmd="/api/"++Crypto++"/lights/"++Id++"/state",
+    Cmd="/api/"++Crypto++"/"++?Type++"/"++Id++"/state",
     Body=case State of
 	     "on"->
 		 jsx:encode(#{<<"on">> => true});		   
@@ -71,11 +67,11 @@ get_info()->
 
 get_info(ConbeeAddr,ConbeePort,Crypto)->
     Info=extract_info(ConbeeAddr,ConbeePort,Crypto),
-    [{Type,Id,Key,Value}||[{name,Name},{id,Id},{type,Type},{status,{Key,Value}}]<-Info].
+    [{Type,Id,Key,Value}||[{name,_Name},{id,Id},{type,Type},{status,{Key,Value}}]<-Info].
   
 extract_info(ConbeeAddr,ConbeePort,Crypto)->
     {ok, ConnPid} = gun:open(ConbeeAddr,ConbeePort),
-    CmdLights="/api/"++Crypto++"/lights",
+    CmdLights="/api/"++Crypto++"/"++?Type++"/",
     Ref=gun:get(ConnPid,CmdLights),
     Result= get_info(gun:await_body(ConnPid, Ref)),
     ok=gun:close(ConnPid),

@@ -25,6 +25,9 @@
 	 status_temp/0,
 	 status_door/0,
 	 status_motion/0,
+
+	 info_lights/0,
+	 info_switch/0,
 	 
 	 ping/0
 	]).
@@ -58,6 +61,13 @@ stop()-> gen_server:call(?SERVER, {stop},infinity).
 %% ====================================================================
 %% Application handling
 %% ====================================================================
+
+
+
+info_lights()-> 
+    gen_server:call(?SERVER, {info_lights},infinity).
+info_switch()-> 
+    gen_server:call(?SERVER, {info_switch},infinity).
 
 status_temp()-> 
     gen_server:call(?SERVER, {status_temp},infinity).
@@ -105,6 +115,19 @@ init([]) ->
 %%          {stop, Reason, Reply, State}   | (terminate/2 is called)
 %%          {stop, Reason, State}            (terminate/2 is called)
 %% --------------------------------------------------------------------
+
+handle_call({info_lights},_From,State) ->
+   % io:format("~p~n",[{temp,?MODULE,?FUNCTION_NAME,?LINE}]),
+    Reply=lights:get_info(),
+    {reply, Reply, State};
+
+handle_call({info_switch},_From,State) ->
+   % io:format("~p~n",[{temp,?MODULE,?FUNCTION_NAME,?LINE}]),
+    Reply= switch:get_info(),
+    {reply, Reply, State};
+
+
+
 handle_call({sensors_raw},_From,State) ->
    % io:format("~p~n",[{temp,?MODULE,?FUNCTION_NAME,?LINE}]),
     Reply= sensors:get_info_raw(),
