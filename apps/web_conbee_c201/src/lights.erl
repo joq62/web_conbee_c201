@@ -126,8 +126,20 @@ get_status("TRADFRI bulb E27 WW 806lm",Map)->
 		  "off"
 	  end,
     Brightness=maps:get(<<"bri">>,Z),
-    
     {ok,{"Status",[State,Brightness]}};  
+
+get_status("TRADFRIbulbE14WScandleopal470lm",Map)->
+    Z=maps:get(<<"state">>,Map),
+    true=is_map(Z),
+    State=case maps:get(<<"on">>,Z) of
+	      true->
+		  "on";
+	      false->
+		  "off"
+	  end,
+    Brightness=maps:get(<<"bri">>,Z),
+    {ok,{"Status",[State,Brightness]}};  
+
 get_status("TRADFRI control outlet",Map)->
     Z=maps:get(<<"state">>,Map),
     true=is_map(Z),
@@ -149,7 +161,7 @@ get_status(Signal,_Map) ->
 get_info_raw()->
     {ok,ConbeeAddr}=application:get_env(ip),
     {ok,ConbeePort}=application:get_env(port),
-    {ok,CmdSensors}=application:get_env(cmd_sensors),
+    {ok,CmdSensors}=application:get_env(key),
 
     {ok, ConnPid} = gun:open(ConbeeAddr,ConbeePort),
     Ref=gun:get(ConnPid,CmdSensors),

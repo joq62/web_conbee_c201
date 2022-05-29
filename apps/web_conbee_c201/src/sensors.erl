@@ -44,12 +44,6 @@ start()->
 %% --------------------------------------------------------------------
 
 
-%-define(Info,"/api/0BDFAC94EE/sensors").
-%-define(Temp,"/api/0BDFAC94EE/sensors/17").
-%-define(OpenClose,"/api/0BDFAC94EE/sensors/11").
-%-define(Motion,"/api/0BDFAC94EE/sensors/12").
-
-
 
 
 
@@ -163,7 +157,7 @@ get_status(Signal,_Map) ->
 get_info_raw()->
     {ok,ConbeeAddr}=application:get_env(ip),
     {ok,ConbeePort}=application:get_env(port),
-    {ok,CmdSensors}=application:get_env(cmd_sensors),
+    {ok,CmdSensors}=application:get_env(key),
 
     {ok, ConnPid} = gun:open(ConbeeAddr,ConbeePort),
     Ref=gun:get(ConnPid,CmdSensors),
