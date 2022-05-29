@@ -276,7 +276,7 @@ do_check_time()->
 		   tradfri_control_outlet:set("switch_lamp_kitchen","off"),
 		   tradfri_control_outlet:set("switch_lamp_hall","off"),
 		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
-		    tradfri_bulb_e27_ww_806lm:set("blue_lamp_inglasad","off"),
+		   tradfri_bulb_E14_ws_candleopal_470lm:set("blue_lamp_inglasad","off"),
 
 		   "OFF";
 	       true ->
