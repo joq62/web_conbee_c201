@@ -50,9 +50,17 @@
 is_on(Name)->
     {ok,[{_Name,_NumId,_ModelId,StateMap}]}=lib_conbee:device(?Type,Name),
     case maps:get(<<"buttonevent">>,StateMap) of
+	1001->
+	    true;
 	1002->
 	    true;
+	1003->
+	    true;
+	2001 ->
+	    false;
 	2002 ->
+	    false;
+	2003 ->
 	    false
     end.
 %% --------------------------------------------------------------------
