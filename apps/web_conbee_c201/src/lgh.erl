@@ -20,9 +20,9 @@
 -define(SERVER,?MODULE).
 -define(CheckIntervall,10*1000).
 -define(TurnOnIndoor,{20,30,00}).
--define(TurnOffIndoor,{23,00,00}).
+-define(TurnOffIndoor,{22,57,00}).
 -define(TurnOnOutDoor,{20,30,00}).
--define(TurnOffOutDoor,{23,00,00}).
+-define(TurnOffOutDoor,{22,55,00}).
 -define(BrightnessSilverLamp,15).
 -define(BrightnessBlueLamp,45).
 
@@ -277,30 +277,31 @@ do_check_time()->
 		   io:format("false  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
 		   tradfri_control_outlet:set("switch_lamp_kitchen","off"),
 		   tradfri_control_outlet:set("switch_lamp_hall","off"),
-		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
-		   tradfri_bulb_E14_ws_candleopal_470lm:set("blue_lamp_inglasad","off"),
-
 		   "OFF";
 	       true ->
 		   io:format("true  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
 		   tradfri_control_outlet:set("switch_lamp_kitchen","on"),
 		   tradfri_control_outlet:set("switch_lamp_hall","on"),
 		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
-		   tradfri_bulb_e27_ww_806lm:set_bri("lamp_inglasad",?BrightnessSilverLamp),
-		   tradfri_bulb_E14_ws_candleopal_470lm:set("blue_lamp_inglasad","on"),
-		   tradfri_bulb_E14_ws_candleopal_470lm:set_bri("blue_lamp_inglasad",?BrightnessBlueLamp),
+		 
 		   "ON"
 	   end,
 
     case ((T>?TurnOnOutDoor) and (T<?TurnOffOutDoor)) or (tradfri_on_off_switch:is_on("switch_all")) of
 	false->
 	    io:format("false  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
+	    tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
+	    tradfri_bulb_E14_ws_candleopal_470lm:set("blue_lamp_inglasad","off"),
 	    tradfri_control_outlet:set("switch_lamp_balcony","off");
 	true ->
-	    io:format("false  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
+	    io:format("true  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
+	    tradfri_bulb_e27_ww_806lm:set_bri("lamp_inglasad",?BrightnessSilverLamp),
+	    tradfri_bulb_E14_ws_candleopal_470lm:set("blue_lamp_inglasad","on"),
+	    tradfri_bulb_E14_ws_candleopal_470lm:set_bri("blue_lamp_inglasad",?BrightnessBlueLamp),
 	    tradfri_control_outlet:set("switch_lamp_balcony","on")
     end,
     io:format("Status  ~p~n",[{Status,?MODULE,?FUNCTION_NAME,?LINE}]),
+
     rpc:cast(node(),?MODULE,check_time,[Status]).
 
 
