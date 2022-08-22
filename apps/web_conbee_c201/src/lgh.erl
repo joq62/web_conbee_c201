@@ -269,10 +269,12 @@ code_change(_OldVsn, State, _Extra) ->
 %%% Internal functions
 %% --------------------------------------------------------------------
 do_check_time()->
+    io:format("  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
     timer:sleep(?CheckIntervall),
     T=time(),
     Status=case ((T>?TurnOnIndoor) and (T<?TurnOffIndoor)) or (tradfri_on_off_switch:is_on("switch_all")) of
 	       false->
+		   io:format("false  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
 		   tradfri_control_outlet:set("switch_lamp_kitchen","off"),
 		   tradfri_control_outlet:set("switch_lamp_hall","off"),
 		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
@@ -280,6 +282,7 @@ do_check_time()->
 
 		   "OFF";
 	       true ->
+		   io:format("true  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
 		   tradfri_control_outlet:set("switch_lamp_kitchen","on"),
 		   tradfri_control_outlet:set("switch_lamp_hall","on"),
 		   tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","on"),
@@ -291,10 +294,13 @@ do_check_time()->
 
     case ((T>?TurnOnOutDoor) and (T<?TurnOffOutDoor)) or (tradfri_on_off_switch:is_on("switch_all")) of
 	false->
+	    io:format("false  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
 	    tradfri_control_outlet:set("switch_lamp_balcony","off");
 	true ->
+	    io:format("false  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
 	    tradfri_control_outlet:set("switch_lamp_balcony","on")
     end,
+    io:format("Status  ~p~n",[{Status,?MODULE,?FUNCTION_NAME,?LINE}]),
     rpc:cast(node(),?MODULE,check_time,[Status]).
 
 
