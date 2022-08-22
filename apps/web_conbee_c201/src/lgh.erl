@@ -20,9 +20,9 @@
 -define(SERVER,?MODULE).
 -define(CheckIntervall,10*1000).
 -define(TurnOnIndoor,{20,30,00}).
--define(TurnOffIndoor,{22,57,00}).
+-define(TurnOffIndoor,{22,00,00}).
 -define(TurnOnOutDoor,{20,30,00}).
--define(TurnOffOutDoor,{22,55,00}).
+-define(TurnOffOutDoor,{22,30,00}).
 -define(BrightnessSilverLamp,15).
 -define(BrightnessBlueLamp,45).
 
