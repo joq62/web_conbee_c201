@@ -296,8 +296,8 @@ do_check_time()->
 	true ->
 	    io:format("true  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
 	    tradfri_bulb_e27_ww_806lm:set_bri("lamp_inglasad",?BrightnessSilverLamp),
-	    tradfri_bulb_E14_ws_candleopal_470lm:set("blue_lamp_inglasad","on"),
-	    tradfri_bulb_E14_ws_candleopal_470lm:set_bri("blue_lamp_inglasad",?BrightnessBlueLamp),
+%	    tradfri_bulb_E14_ws_candleopal_470lm:set("blue_lamp_inglasad","on"),
+%	    tradfri_bulb_E14_ws_candleopal_470lm:set_bri("blue_lamp_inglasad",?BrightnessBlueLamp),
 	    tradfri_control_outlet:set("switch_lamp_balcony","on")
     end,
     io:format("Status  ~p~n",[{Status,?MODULE,?FUNCTION_NAME,?LINE}]),
