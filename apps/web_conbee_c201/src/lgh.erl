@@ -271,8 +271,9 @@ code_change(_OldVsn, State, _Extra) ->
 do_check_time()->
     io:format("  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
     timer:sleep(?CheckIntervall),
-    T=time(),
-    Status=case ((T>?TurnOnIndoor) and (T<?TurnOffIndoor)) or (tradfri_on_off_switch:is_on("switch_all")) of
+    %T=time(),
+   % Status=case ((T>?TurnOnIndoor) and (T<?TurnOffIndoor)) or (tradfri_on_off_switch:is_on("switch_all")) of
+    Status=case (tradfri_on_off_switch:is_on("switch_all")) of
 	       false->
 		   io:format("false  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
 		   tradfri_control_outlet:set("switch_lamp_kitchen","off"),
@@ -287,7 +288,8 @@ do_check_time()->
 		   "ON"
 	   end,
 
-    case ((T>?TurnOnOutDoor) and (T<?TurnOffOutDoor)) or (tradfri_on_off_switch:is_on("switch_all")) of
+%    case ((T>?TurnOnOutDoor) and (T<?TurnOffOutDoor)) or (tradfri_on_off_switch:is_on("switch_all")) of
+    case (tradfri_on_off_switch:is_on("switch_all")) of
 	false->
 	    io:format("false  ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
 	    tradfri_bulb_e27_ww_806lm:set("lamp_inglasad","off"),
